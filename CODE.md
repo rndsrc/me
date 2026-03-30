@@ -346,3 +346,72 @@ Avoid these things.
 
 Keep docs close to the code they describe.
 Update docs when public behavior changes.
+
+## Computational Thinking
+
+### Define The Model
+
+Identify the model before implementing nontrivial behavior.
+* Inputs and outputs.
+* Mutable state.
+* Required invariants.
+* Error cases.
+* Expected scale.
+* Cost drivers.
+* User-visible contract.
+
+Ask before coding when the model is unclear.
+Ask only after checking the code and docs.
+
+### Separate Semantic Layers
+
+Keep semantic layers distinct.
+* Interface and user-facing API.
+* Input validation.
+* Unit and schema conversion.
+* Pure computation.
+* Backend or platform execution.
+* Persistence and I/O.
+* Visualization and reporting.
+* Command-line or service entry points.
+
+Small scripts may combine layers at the top level.
+Reusable code should keep layers separate.
+
+### Prefer Pure Kernels
+
+Pure computation is easier to test and optimize.
+Pure computation is easier to transform and reason about.
+* Put pure logic in small functions.
+* Pass required context explicitly.
+* Keep I/O out of pure kernels.
+* Keep global state out of pure kernels.
+* Return values instead of mutating distant state when practical.
+* Isolate unavoidable mutation behind narrow interfaces.
+
+### Make Data Flow Inspectable
+
+Design data flow so a reviewer can inspect it quickly.
+* Where data comes from.
+* Who owns it.
+* When it is valid.
+* How it is transformed.
+* Where it is stored.
+* How errors propagate.
+* How resources are released.
+
+Expose shape, stride, precision, alignment, and device placement.
+Expose transfer points between memory, process, and device boundaries.
+
+### State Tradeoffs
+
+Record meaningful tradeoffs near the decision.
+Use comments, docs, commit messages, or final explanations.
+* Composability versus optimal batching.
+* Memory footprint versus cached results.
+* Startup cost versus repeated execution speed.
+* Generic interface versus direct backend access.
+* Compatibility versus cleanup.
+* Strict input validation versus permissive migration.
+
+Do not silently choose clever designs that change the contract.
