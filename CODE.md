@@ -415,3 +415,140 @@ Use comments, docs, commit messages, or final explanations.
 * Strict input validation versus permissive migration.
 
 Do not silently choose clever designs that change the contract.
+
+## Architecture Practices
+
+### Public APIs
+
+Keep public APIs small, stable, and meaningful.
+* Expose domain concepts.
+* Hide incidental implementation details.
+* Avoid leaking temporary internal structure.
+* Prefer small public surfaces with testable internals.
+* Publish APIs only after understanding their lifetime.
+* Update tests when public behavior changes.
+* Update docs when public behavior changes.
+
+Provide a migration path when compatibility matters.
+
+### Abstractions
+
+Add abstraction only when it earns its cost.
+
+Good abstractions do at least one useful thing.
+* Remove meaningful duplication.
+* Represent a real domain boundary.
+* Make testing easier.
+* Isolate a backend or external dependency.
+* Protect an invariant.
+* Enable measurable performance or portability.
+
+Weak abstractions often have these traits.
+* They exist only for imagined future flexibility.
+* They hide ownership, errors, or costs.
+* They wrap a library without simplifying anything.
+* They make compilers or reviewers see less.
+* They spread one behavior across many files.
+
+### Modules And Boundaries
+
+Use modules to create clear ownership.
+* Put reusable logic in library modules.
+* Keep entry points thin.
+* Keep backend-specific code behind narrow boundaries.
+* Keep command-line parsing outside computational code.
+* Keep file formats and protocols at edges.
+* Avoid circular dependencies.
+
+Split modules by semantic boundary.
+Make construction, configuration, execution, and teardown explicit.
+Use `mk*` and `rm*` pairs when local style supports them.
+Use function-pointer interfaces for real module boundaries.
+Use small protocol objects for real module boundaries.
+Keep dynamic loading behind narrow interfaces.
+Keep backend selection behind narrow interfaces.
+
+### Data Ownership And Lifecycle
+
+Make ownership clear for resources.
+Resources include memory, files, handles, locks, tasks, and temp files.
+* Pair acquisition with release.
+* Prefer scoped resource management when the language supports it.
+* Make cleanup paths easy to audit.
+* Use cleanup labels in languages without automatic cleanup.
+* Use cleanup helpers in languages without automatic cleanup.
+* Avoid partial initialization unless teardown handles each state.
+
+For shared data, document who may mutate it.
+For shared data, document what synchronization protects it.
+
+### Error Handling
+
+Use error handling that matches the language and project.
+* Perform input validation at boundaries.
+* Use assertions for internal invariants.
+* Do not use assertions for user input.
+* Preserve original error context when wrapping errors.
+* Do not swallow failures in setup.
+* Do not swallow failures in I/O or numerical code.
+* Do not swallow failures in release code.
+* Avoid exiting inside reusable library functions.
+* Keep error messages concise, specific, and actionable.
+
+Function names and return conventions should agree.
+Predicate functions should return booleans.
+Action functions should return status, raise, or return result objects.
+Follow local convention when choosing among those options.
+
+### Configuration
+
+Make configuration explicit and reproducible.
+* Prefer command-line options when local convention uses them.
+* Prefer config files when local convention uses them.
+* Prefer environment variables when local convention uses them.
+* Keep defaults documented.
+* Add configuration only when users need to vary behavior.
+* Avoid hidden behavior changes from ambient environment.
+* Allow ambient behavior only when the project already does.
+* Make generated or derived configuration inspectable.
+
+### Dependencies
+
+Treat dependencies as maintenance costs.
+* Prefer the standard library.
+* Prefer existing project dependencies.
+* Add dependencies only when they remove real complexity.
+* Add dependencies for costly, well-tested domain capabilities.
+* Consider portability, install cost, licensing, and security.
+* Consider long-term maintenance.
+* Ask before adding production dependencies when policy is unclear.
+
+### Generated Code And Artifacts
+
+Use generated code only when it is part of the design.
+
+When using generated code, make these facts clear.
+* Source of truth.
+* Generation command.
+* Regeneration prerequisites.
+* Expected generated outputs.
+* Review boundary between generator and generated output.
+
+Do not edit generated output by hand unless allowed.
+Do not commit build products, caches, or temporary files.
+Commit those files only when the project intentionally tracks them.
+
+### Concurrency And Parallelism
+
+Design concurrency deliberately.
+* Identify shared state.
+* Define ownership and synchronization.
+* Avoid global mutable state.
+* Keep critical sections small.
+* Prefer immutable data when practical.
+* Prefer message passing when practical.
+* Test race-prone behavior with realistic concurrency.
+
+For parallel numerical work, consider batching and vectorization.
+For parallel data work, consider device transfer costs.
+Also consider memory layout and determinism.
