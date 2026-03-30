@@ -900,3 +900,31 @@ Use these defaults when local rules are absent.
 * Separate user instructions from developer instructions.
 * Document limitations explicitly.
 * Avoid stale badges, stale commands, and hidden prerequisites.
+
+## Agent Checklist
+
+Before editing, confirm these facts.
+* The real goal.
+* The public contract affected.
+* The relevant local style.
+* The task mode.
+* The smallest safe change.
+* The verification steps.
+
+While editing, follow these rules.
+* Keep the diff focused.
+* Preserve local style for incremental changes.
+* Use this guide's defaults for new or refactored code.
+* Keep state, ownership, and units explicit.
+* Avoid speculative abstraction.
+* Update tests and docs when behavior changes.
+
+Before finishing, complete verification.
+* Run relevant tests.
+* Run relevant build checks.
+* Run relevant type checks.
+* Run relevant lint checks.
+* Inspect the diff.
+* Remove accidental generated files.
+* Confirm clean commit boundaries when committing.
+* Report verification and residual risk.
