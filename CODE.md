@@ -1,5 +1,7 @@
 # Coding Guidelines
 
+Guide load marker: `CODING-GUIDE-v0`.
+
 Write correct, testable, simple, composable, reproducible code.
 Keep performance visible and evidence-based.
 Keep code easy to review.
@@ -25,3 +27,18 @@ Resolve conflicts by matching the task.
 
 Do not rewrite working code just to match this guide.
 Do that only when the task is cleanup or refactoring.
+
+## Guide Load Debugging
+
+Treat the guide load marker as a debugging canary.
+Do not treat the marker as a secret.
+Do not use the marker for security or authentication.
+
+When asked whether this guide was loaded, report these facts.
+* The exact guide load marker.
+* The highest-priority local instruction source used.
+* Two or three guide rules that affected the work.
+* Any local rule that overrode this guide.
+
+Do not claim the marker from memory when the file was unavailable.
+If the guide was not loaded, say that directly.
