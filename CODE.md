@@ -793,3 +793,110 @@ Use table-driven code when many cases share behavior.
 Use tables when cases differ only by constants, names, or flags.
 Use tables when a switch encodes data instead of behavior.
 Use explicit branches when cases have different algorithms.
+
+## Language-Specific Style
+
+### Python
+
+Use local Python style first.
+Use these defaults when local rules are absent.
+
+For new CK-style Python packages, use `mod/<package>`.
+Do not use `src/<package>` unless the project already uses `src`.
+Use `src` when the user explicitly asks for it.
+Configure packaging so the package root points at `mod`.
+Use `packages = [{include = "<package>", from = "mod"}]` for Poetry.
+Use `find_packages("mod")` for setuptools packages.
+Use `package_dir={"": "mod"}` for setuptools packages.
+* Use 4 spaces for indentation.
+* Prefer explicit imports.
+* Use type hints at public boundaries when they clarify contracts.
+* Keep pure computation separate from I/O.
+* Use `dataclass`, `NamedTuple`, or small classes for structured state.
+* Use exceptions for invalid external input.
+* Use assertions for internal invariants.
+* Write direct unit tests unless local convention differs.
+* Use `mk*` for lower-case factories.
+* Use `mk*` when construction is the main idea.
+* Use capitalized factory names such as `Step`, `Engine`, or `Dense`.
+* Use capitalized factory names for conceptual components.
+* Use short mathematical locals such as `t`, `T`, `x`, `X`, and `h`.
+* Use short mathematical locals such as `H`, `i`, and `r`.
+* Use short names only when equations make them clear.
+* Use `u_` prefixes for unit-bearing arguments when local style uses them.
+
+For numerical Python, keep units and backend setup at boundaries.
+Keep array kernels backend-friendly when practical.
+Avoid Python loops in hot array code unless intentional.
+Test shapes, dtypes, tolerances, and transformations.
+
+### C, C++, CUDA, And Systems Code
+
+Use local systems style first.
+Use these defaults when local rules are absent.
+* Use K&R-style control blocks for new C-like modules.
+* Use tabs for indentation when no local rule exists.
+* Keep public symbols descriptive.
+* Keep local variables concise when scope is small.
+* Use `Lux_class` and `lux_method` in Lux-style public interfaces.
+* Use `mk*` and `rm*` pairs for constructors and destructors.
+* Use `static` for private helpers.
+* Prefer `static inline` over function-like macros.
+* Use macros for constants.
+* Use macros for compile-time genericity.
+* Use macros for zero-cost patterns that C cannot express cleanly.
+* Avoid macros when the language can express the idea cleanly.
+* Check allocation failures.
+* Check system-call failures.
+* Make ownership and cleanup paths explicit.
+* Keep conditional compilation out of core logic when possible.
+* Isolate device-specific code behind narrow interfaces.
+* Isolate backend-specific code behind narrow interfaces.
+
+Follow these macro rules.
+* Parenthesize arguments and expressions.
+* Avoid multiple evaluation.
+* Avoid hidden control flow.
+* Avoid dependence on magic local variable names.
+* Use `do { ... } while (0)` for multi-statement macros.
+
+### Shell Scripts
+
+Use local shell style first.
+Use these defaults when local rules are absent.
+* Prefer POSIX shell when portability matters.
+* Use Bash only when Bash features are needed.
+* Quote variables unless word splitting is intentional.
+* Fail clearly on missing commands or bad arguments.
+* Use temporary files safely.
+* Keep scripts composable from other scripts and CI.
+* Document environment variables and required tools.
+
+Use `set -e` only when the script handles its edge cases.
+Use stricter modes only when the script handles their edge cases.
+Do not add strict mode blindly to sourced scripts.
+Do not add strict mode blindly to complex pipelines.
+
+### Build, Config, And CI Files
+
+Keep build and CI behavior reproducible.
+* Keep build commands documented.
+* Keep generated files out of source unless deliberately tracked.
+* Prefer standard project tooling over custom scripts.
+* Do not change release workflows in unrelated code work.
+* Do not change publish workflows in unrelated code work.
+* Keep CI job names descriptive.
+* Keep dependency updates separate from behavior changes when practical.
+
+### Markdown And Documentation Files
+
+Use local documentation style first.
+Use these defaults when local rules are absent.
+* Use clear headings.
+* Use `*` for bullets in Markdown governed by this guide.
+* Keep examples runnable.
+* Put each sentence on a new line in policy docs.
+* Use code fences with language names.
+* Separate user instructions from developer instructions.
+* Document limitations explicitly.
+* Avoid stale badges, stale commands, and hidden prerequisites.
