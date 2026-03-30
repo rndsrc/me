@@ -552,3 +552,74 @@ Design concurrency deliberately.
 For parallel numerical work, consider batching and vectorization.
 For parallel data work, consider device transfer costs.
 Also consider memory layout and determinism.
+
+## Verification
+
+Verification asks whether the work was built right.
+Use checks to collect evidence that requirements are met.
+Use tests to protect behavior, not implementation trivia.
+
+### Check Layers
+
+Choose checks by risk and behavior surface.
+* Use unit tests for local behavior.
+* Use integration tests for cross-module data flow.
+* Use end-to-end tests or real examples for important workflows.
+* Use regression tests for bug fixes.
+* Use property tests when many cases matter.
+* Use invariant checks when invariants matter.
+* Use numerical reference checks for scientific code.
+* Use CLI or service smoke checks for entry points.
+* Use builds, type checks, and lint for project-level feedback.
+* Use benchmarks for performance claims.
+* Use diff review to find unrelated churn.
+
+### Verification Goals
+
+Define success as evidence that can be checked.
+* Bug fix: failing case passes and old behavior remains intact.
+* Feature: public behavior matches the documented contract.
+* Refactor: relevant checks pass before and after.
+* Refactor: public behavior is unchanged.
+* Performance work: measured cost decreases on representative inputs.
+* Documentation work: examples, commands, and procedures are accurate.
+
+### Verification Loops
+
+Turn each task into a verifiable goal before coding.
+Loop until the goal has evidence or a real blocker is found.
+* Input-validation work: check valid and invalid boundary cases.
+* Bug fix: reproduce the observed failure with a test first.
+* Feature: check user-visible behavior directly.
+* Refactor: run behavior checks before and after.
+* Performance work: record the baseline before changing code.
+* Documentation work: run or inspect changed examples and commands.
+
+Weak goals such as `make it work` require clarification.
+Strong goals let the agent verify progress independently.
+
+### Numerical And Data Checks
+
+For numerical or data-heavy code, check data meaning directly.
+* Units and dimensions.
+* Shapes, broadcasting rules, and layouts.
+* Dtypes, precision, and tolerances.
+* Empty inputs and boundary cases.
+* Singularities and near-zero cases.
+* Error bounds.
+* Analytical identities.
+* Reference values.
+* Conservation properties.
+
+Document non-obvious tolerance choices.
+
+### Definition Of Done
+
+Finish only after relevant checks are complete.
+* Run the relevant checks.
+* Inspect the diff for unrelated churn.
+* Check for accidental generated files.
+* Report checks that could not run.
+* Report remaining behavior or compatibility risks.
+
+Do not claim completion when relevant checks were skipped.
