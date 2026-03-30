@@ -6,3 +6,22 @@ Keep code easy to review.
 Treat source, tests, docs, and commit history as parts of the project.
 Prefer clean code that needs little explanation.
 Use docs for design, derivations, invariants, units, and tradeoffs.
+
+## Instruction Precedence
+
+Follow instructions in this order.
+* Current user instructions.
+* Repository-specific agent instructions.
+* Project docs and explicit local style rules.
+* This `CODE.md`.
+* Existing code patterns in touched files.
+
+Resolve conflicts by matching the task.
+* For incremental edits, match the touched files.
+* For refactors, new modules, and new projects, use this guide.
+* For formatting work, apply one rule across the declared scope.
+* If the user conflicts with this guide, follow the user.
+* Mention important conflicts in the final response.
+
+Do not rewrite working code just to match this guide.
+Do that only when the task is cleanup or refactoring.
