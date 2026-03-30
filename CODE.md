@@ -677,3 +677,119 @@ Make each change easy to review.
 * Preserve local style.
 * Explain non-obvious tradeoffs.
 * Leave the repository reproducible.
+
+## General Programming Style
+
+### Local Style Versus Defaults
+
+Use local style for incremental edits.
+Use this guide for new code when local rules are absent.
+Use this guide for refactors when local rules are absent.
+Use this guide for new projects when local rules are absent.
+
+For incremental edits, keep formatting churn minimal.
+For refactors, format the declared refactor scope consistently.
+Separate behavior changes from pure style changes when practical.
+
+### Formatting
+
+Use simple, consistent formatting.
+* Use UTF-8 and LF line endings.
+* Use ASCII-only text unless the project or task requires Unicode.
+* End files with a newline.
+* Remove trailing whitespace.
+* Keep lines at or under 79 columns.
+* Put each sentence on its own physical line in policy docs.
+* Use blank lines to separate concepts.
+* Do not add editor modelines to source files.
+
+Use the project's formatter when one is configured.
+Do not introduce a new formatter as a side effect.
+
+### Naming
+
+Choose names by scope, lifetime, and meaning.
+* Short local names are acceptable when scope is small.
+* Short local names are acceptable when meaning is obvious.
+* Wider-scope names should be longer and more descriptive.
+* Public names should describe domain meaning.
+* Public names should not describe implementation mechanics.
+* Module, file, class, and type names should describe stable concepts.
+* Function names should describe the action, result, or predicate.
+* Predicate names should read like boolean questions or properties.
+* Variable names should describe the value's role.
+* Mathematical code may use conventional short symbols.
+* Use short symbols only when context makes them clear.
+* Avoid clever abbreviations in public APIs.
+* Avoid encoding incidental types into names.
+* Use paired names consistently.
+* Prefer pairs such as `current` and `next`.
+* Prefer pairs such as `old` and `new`.
+* Use domain equivalents when they are clearer.
+
+Rename unclear code when the rename is in scope.
+Do not churn public names without a compatibility plan.
+
+### Signature Conventions
+
+Use CK signature conventions when local style is absent.
+Use them when adding to CK-style modules.
+Preserve stronger local conventions in existing projects.
+* Use `mk*` for factories, constructors, and allocation functions.
+* Use `rm*` for destructors, release functions, and teardown functions.
+* Keep `mk*` and `rm*` names paired for the same resource.
+* Use domain names for public mathematical functions.
+* Use domain names when construction is not the main idea.
+* Use capitalized factory names for conceptual components.
+* Use short method names inside vtables.
+* Use short method names when the receiver supplies the namespace.
+* Use longer free-function names when no receiver gives context.
+
+For Lux-style C interfaces, use these conventions.
+* Use `Lux_class` for public Lux handle or object types.
+* Use `struct Lux_class_s` for exposed backing struct tags.
+* Use `lux_method` for public Lux functions.
+* Use lower-case method fields such as `exec`, `load`, `mk`, and `rm`.
+* Use function-pointer interfaces for modules, resources, tasks, plugins.
+
+Do not force these names into projects with another clear naming scheme.
+
+### Functions
+
+Keep functions focused.
+* Do one thing well.
+* Keep argument lists short enough to understand.
+* Use helpers when indentation grows too complex.
+* Use helpers when local state grows too complex.
+* Avoid boolean flags that drastically change behavior.
+* Prefer separate functions for different behavior.
+* Prefer explicit modes for different behavior.
+* Make side effects visible in names, return values, or APIs.
+
+### Data Structures
+
+Choose data structures that make invariants clear.
+* Prefer named fields over positional tuples.
+* Use positional tuples only when values have the same meaning.
+* Prefer immutable values for shared data when practical.
+* Keep conversion at boundaries.
+* Avoid passing loose dictionaries through many layers.
+* Make optional values explicit.
+* Make missing states explicit.
+
+### Imports And Includes
+
+Keep dependencies readable.
+* Group standard library, third-party, and local imports.
+* Avoid wildcard imports unless local style uses them.
+* Remove imports made unused by your change.
+* Remove includes made unused by your change.
+* Do not reorder unrelated imports without a project formatter.
+
+### Tables And Repeated Cases
+
+Use table-driven code when many cases share behavior.
+
+Use tables when cases differ only by constants, names, or flags.
+Use tables when a switch encodes data instead of behavior.
+Use explicit branches when cases have different algorithms.
