@@ -42,3 +42,18 @@ When asked whether this guide was loaded, report these facts.
 
 Do not claim the marker from memory when the file was unavailable.
 If the guide was not loaded, say that directly.
+
+## Terminology
+
+Use these terms consistently.
+* Verification asks whether we built it right.
+  Evidence shows requirements are met.
+* Validation asks whether we built the right thing.
+  Evidence shows intended use is satisfied in the intended environment.
+* Input validation checks external input at a boundary.
+  It is not product validation.
+* Checks collect evidence for verification or validation.
+  Examples include tests, builds, lint, benchmarks, and diff review.
+* Tests are executable checks.
+
+Do not use validation to mean tests, review, or general verification.
