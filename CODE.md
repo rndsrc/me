@@ -2,6 +2,10 @@
 
 Guide load marker: `CODING-GUIDE-v0`.
 
+This file is self-convergent.
+Edits to this file should follow the rules declared in this file.
+Higher-priority instructions still override this file.
+
 Write correct, testable, simple, composable, reproducible code.
 Keep performance visible and evidence-based.
 Keep code easy to review.
