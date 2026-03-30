@@ -15,14 +15,18 @@ Use docs for design, derivations, invariants, units, and tradeoffs.
 
 ## Instruction Precedence
 
-Follow instructions in this order.
+Instruction authority and local style are related but separate.
+
+Follow instruction sources in this order.
 * Current user instructions.
 * Repository-specific agent instructions.
 * Project docs and explicit local style rules.
 * This `CODE.md`.
-* Existing code patterns in touched files.
 
-Resolve conflicts by matching the task.
+Use existing code patterns as style and compatibility evidence.
+Do not let existing patterns override explicit instructions.
+
+Choose style by matching the task.
 * For incremental edits, match the touched files.
 * For refactors, new modules, and new projects, use this guide.
 * For formatting work, apply one rule across the declared scope.
@@ -94,7 +98,8 @@ Make correctness the first design constraint.
 * Treat signs and coordinate conventions as contracts.
 * Treat precision, layout, and tolerances as contracts.
 * Perform input validation at boundaries.
-* Use assertions for internal invariants.
+* Use assertions for developer-only internal invariants.
+* Use runtime checks for invariants required in release builds.
 * Do not hide behavior changes inside easier implementations.
 * Fix bugs without creating new user-visible problems.
 
@@ -107,6 +112,27 @@ For scientific or data-heavy code, protect these properties.
 * Backend differences.
 * Precision and layout.
 * Known identities, invariants, and reference values.
+
+### Security by Default
+
+Treat security as part of correctness.
+Do not leave it for a late review pass.
+* Identify trust boundaries before processing untrusted data.
+* Validate untrusted input at the trusted boundary.
+* Encode or escape output for the destination context.
+* Use structured APIs instead of string-built commands and queries.
+* Perform authentication and authorization on trusted systems.
+* Enforce authorization at every protected operation.
+* Do not rely on user interfaces for access control.
+* Use least privilege for files, networks, databases, tokens, and CI.
+* Keep secrets out of source, logs, errors, URLs, tests, and fixtures.
+* Use established cryptographic libraries and approved randomness.
+* Do not invent cryptographic protocols or password storage.
+* Do not invent token formats unless the design requires it.
+* Log security-relevant events without sensitive values.
+* Fail closed when security configuration or policy cannot be loaded.
+* Review dependency licensing, maintenance, and vulnerability risk.
+* Keep dependency and build provenance auditable where it matters.
 
 ### Verification by Design
 
@@ -489,9 +515,10 @@ For shared data, document what synchronization protects it.
 ### Error Handling
 
 Use error handling that matches the language and project.
-* Perform input validation at boundaries.
-* Use assertions for internal invariants.
+* Follow boundary rules from Correctness First and Security by Default.
+* Use assertions for developer-only internal invariants.
 * Do not use assertions for user input.
+* Use runtime checks for release-critical invariants.
 * Preserve original error context when wrapping errors.
 * Do not swallow failures in setup.
 * Do not swallow failures in I/O or numerical code.
@@ -510,11 +537,28 @@ Make configuration explicit and reproducible.
 * Prefer command-line options when local convention uses them.
 * Prefer config files when local convention uses them.
 * Prefer environment variables when local convention uses them.
+* Keep deployment-specific values outside source code.
+* Keep credentials and tokens outside source and default configs.
 * Keep defaults documented.
+* Validate configuration before dependent work starts.
 * Add configuration only when users need to vary behavior.
 * Avoid hidden behavior changes from ambient environment.
 * Allow ambient behavior only when the project already does.
 * Make generated or derived configuration inspectable.
+
+### Production Lifecycle
+
+Make production changes observable, reversible, and operable.
+Use this section when the project has real deployments or persisted data.
+* Separate build, release, and runtime behavior when deployment needs it.
+* Plan database and storage migrations before changing persisted data.
+* Keep schema changes compatible during rolling deploys when required.
+* Define backfill and cleanup steps for data migrations.
+* Prefer staged rollout or feature flags for risky behavior changes.
+* Add metrics, structured logs, traces, or audit events where needed.
+* Keep logs actionable and safe for sensitive data.
+* Handle startup, shutdown, retries, and timeouts deliberately.
+* Document rollback or recovery steps for risky releases.
 
 ### Dependencies
 
@@ -525,6 +569,8 @@ Treat dependencies as maintenance costs.
 * Add dependencies for costly, well-tested domain capabilities.
 * Consider portability, install cost, licensing, and security.
 * Consider long-term maintenance.
+* Check known vulnerabilities before adding production dependencies.
+* Keep lockfiles or dependency manifests updated when the project uses them.
 * Ask before adding production dependencies when policy is unclear.
 
 ### Generated Code and Artifacts
@@ -601,6 +647,17 @@ Loop until the goal has evidence or a real blocker is found.
 
 Weak goals such as `make it work` require clarification.
 Strong goals let the agent verify progress independently.
+
+### Test Reliability
+
+Reliable tests are deterministic and isolated.
+* Control time, randomness, ordering, locale, and timezone when they matter.
+* Avoid real networks, accounts, and production services in unit tests.
+* Use temporary files and isolated process state for filesystem tests.
+* Prefer explicit synchronization over sleeps for asynchronous behavior.
+* Mark slow, flaky, destructive, or external-service tests separately.
+* Keep fixtures small and representative.
+* Make failure output specific enough to diagnose the cause.
 
 ### Numerical and Data Checks
 
@@ -702,7 +759,8 @@ Use simple, consistent formatting.
 * Use ASCII-only text unless the project or task requires Unicode.
 * End files with a newline.
 * Remove trailing whitespace.
-* Keep lines at or under 79 columns.
+* Follow configured formatters for line length.
+* When no formatter exists, keep lines at or under 79 columns.
 * Put each sentence on its own physical line in policy docs.
 * Use blank lines to separate concepts.
 * Do not add editor modelines to source files.
@@ -805,20 +863,20 @@ Use explicit branches when cases have different algorithms.
 Use local Python style first.
 Use these defaults when local rules are absent.
 
-For new CK-style Python packages, use `mod/<package>`.
-Do not use `src/<package>` unless the project already uses `src`.
-Use `src` when the user explicitly asks for it.
-Configure packaging so the package root points at `mod`.
-Use `packages = [{include = "<package>", from = "mod"}]` for Poetry.
-Use `find_packages("mod")` for setuptools packages.
-Use `package_dir={"": "mod"}` for setuptools packages.
+Prefer existing Python package layout.
+For installable packages with no local convention, prefer `src/<package>`.
+Use `mod/<package>` only for CK-style packages or explicit user requests.
+Configure package discovery to point at the chosen root.
+For Poetry, point package `from` at the chosen root.
+For setuptools, point `package_dir` and discovery `where` at the root.
 * Use 4 spaces for indentation.
 * Prefer explicit imports.
 * Use type hints at public boundaries when they clarify contracts.
 * Keep pure computation separate from I/O.
 * Use `dataclass`, `NamedTuple`, or small classes for structured state.
 * Use exceptions for invalid external input.
-* Use assertions for internal invariants.
+* Use assertions for developer-only internal invariants.
+* Use runtime checks for release-critical invariants.
 * Write direct unit tests unless local convention differs.
 * Use `mk*` for lower-case factories.
 * Use `mk*` when construction is the main idea.
@@ -846,8 +904,10 @@ Use these defaults when local rules are absent.
 * Use `mk*` and `rm*` pairs for constructors and destructors.
 * Use `static` for private helpers.
 * Prefer `static inline` over function-like macros.
-* Use macros for constants.
-* Use macros for compile-time genericity.
+* In C++, prefer `constexpr`, `const`, and typed enums for constants.
+* In C, prefer `static const` or enums for typed constants.
+* Use macros for preprocessor-controlled constants only when needed.
+* Use macros for genericity only when language facilities are insufficient.
 * Use macros for zero-cost patterns that C cannot express cleanly.
 * Avoid macros when the language can express the idea cleanly.
 * Check allocation failures.
@@ -910,6 +970,7 @@ Use these defaults when local rules are absent.
 Before editing, confirm these facts.
 * The real goal.
 * The public contract affected.
+* The security, data, and compatibility risk.
 * The relevant local style.
 * The task mode.
 * The smallest safe change.
@@ -920,6 +981,7 @@ While editing, follow these rules.
 * Preserve local style for incremental changes.
 * Use this guide's defaults for new or refactored code.
 * Keep state, ownership, and units explicit.
+* Keep trust boundaries and secrets explicit.
 * Avoid speculative abstraction.
 * Update tests and docs when behavior changes.
 
@@ -928,6 +990,7 @@ Before finishing, complete verification.
 * Run relevant build checks.
 * Run relevant type checks.
 * Run relevant lint checks.
+* Run relevant security or dependency checks.
 * Inspect the diff.
 * Remove accidental generated files.
 * Confirm clean commit boundaries when committing.
