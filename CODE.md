@@ -108,7 +108,7 @@ For scientific or data-heavy code, protect these properties.
 * Precision and layout.
 * Known identities, invariants, and reference values.
 
-### Verification By Design
+### Verification by Design
 
 Design code so correctness can be checked cheaply and repeatedly.
 Use pragmatic test-driven development for specified behavior.
@@ -199,7 +199,7 @@ Make the project rebuildable, testable, and understandable later.
 * Do not make notebooks the only source of truth.
 * Do not make manual commands the only source of truth.
 
-### Performance With Evidence
+### Performance with Evidence
 
 Treat performance as a design constraint that requires evidence.
 
@@ -353,7 +353,7 @@ Update docs when public behavior changes.
 
 ## Computational Thinking
 
-### Define The Model
+### Define the Model
 
 Identify the model before implementing nontrivial behavior.
 * Inputs and outputs.
@@ -454,7 +454,7 @@ Weak abstractions often have these traits.
 * They make compilers or reviewers see less.
 * They spread one behavior across many files.
 
-### Modules And Boundaries
+### Modules and Boundaries
 
 Use modules to create clear ownership.
 * Put reusable logic in library modules.
@@ -472,7 +472,7 @@ Use small protocol objects for real module boundaries.
 Keep dynamic loading behind narrow interfaces.
 Keep backend selection behind narrow interfaces.
 
-### Data Ownership And Lifecycle
+### Data Ownership and Lifecycle
 
 Make ownership clear for resources.
 Resources include memory, files, handles, locks, tasks, and temp files.
@@ -527,7 +527,7 @@ Treat dependencies as maintenance costs.
 * Consider long-term maintenance.
 * Ask before adding production dependencies when policy is unclear.
 
-### Generated Code And Artifacts
+### Generated Code and Artifacts
 
 Use generated code only when it is part of the design.
 
@@ -542,7 +542,7 @@ Do not edit generated output by hand unless allowed.
 Do not commit build products, caches, or temporary files.
 Commit those files only when the project intentionally tracks them.
 
-### Concurrency And Parallelism
+### Concurrency and Parallelism
 
 Design concurrency deliberately.
 * Identify shared state.
@@ -602,7 +602,7 @@ Loop until the goal has evidence or a real blocker is found.
 Weak goals such as `make it work` require clarification.
 Strong goals let the agent verify progress independently.
 
-### Numerical And Data Checks
+### Numerical and Data Checks
 
 For numerical or data-heavy code, check data meaning directly.
 * Units and dimensions.
@@ -617,7 +617,7 @@ For numerical or data-heavy code, check data meaning directly.
 
 Document non-obvious tolerance choices.
 
-### Definition Of Done
+### Definition of Done
 
 Finish only after relevant checks are complete.
 * Run the relevant checks.
@@ -781,7 +781,7 @@ Choose data structures that make invariants clear.
 * Make optional values explicit.
 * Make missing states explicit.
 
-### Imports And Includes
+### Imports and Includes
 
 Keep dependencies readable.
 * Group standard library, third-party, and local imports.
@@ -790,7 +790,7 @@ Keep dependencies readable.
 * Remove includes made unused by your change.
 * Do not reorder unrelated imports without a project formatter.
 
-### Tables And Repeated Cases
+### Tables and Repeated Cases
 
 Use table-driven code when many cases share behavior.
 
@@ -834,7 +834,7 @@ Keep array kernels backend-friendly when practical.
 Avoid Python loops in hot array code unless intentional.
 Test shapes, dtypes, tolerances, and transformations.
 
-### C, C++, CUDA, And Systems Code
+### C, C++, CUDA, and Systems Code
 
 Use local systems style first.
 Use these defaults when local rules are absent.
@@ -881,7 +881,7 @@ Use stricter modes only when the script handles their edge cases.
 Do not add strict mode blindly to sourced scripts.
 Do not add strict mode blindly to complex pipelines.
 
-### Build, Config, And CI Files
+### Build, Config, and CI Files
 
 Keep build and CI behavior reproducible.
 * Keep build commands documented.
@@ -892,7 +892,7 @@ Keep build and CI behavior reproducible.
 * Keep CI job names descriptive.
 * Keep dependency updates separate from behavior changes when practical.
 
-### Markdown And Documentation Files
+### Documentation and Markdown Files
 
 Use local documentation style first.
 Use these defaults when local rules are absent.
