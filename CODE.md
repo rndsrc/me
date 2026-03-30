@@ -211,3 +211,138 @@ Treat performance as a design constraint that requires evidence.
 
 Do not claim speedups without evidence.
 Evidence can be a benchmark, profile, or clear technical argument.
+
+## Task Modes
+
+### Task Mode Selection
+
+Universal principles apply to every coding task.
+Select one primary task mode before editing.
+Combine task modes when the work genuinely spans several modes.
+* Use `Surgical Changes` for edits to existing code.
+* Use `Bug Fixes` when correcting broken behavior.
+* Use `New Features` when adding public behavior.
+* Use `Refactors` when improving structure without behavior change.
+* Use `Architecture Design` when shaping modules or interfaces.
+* Use `Performance Work` when speed or resource use is the goal.
+* Use `Documentation Work` when source behavior is not changing.
+
+State the task mode when it affects tradeoffs.
+Use the narrowest task mode that fits the request.
+
+### Surgical Changes
+
+Use surgical changes when editing existing code.
+Touch only what the task requires.
+Clean up only what your change makes obsolete.
+* Avoid drive-by refactors.
+* Do not improve adjacent code.
+* Do not improve adjacent comments.
+* Do not improve adjacent formatting.
+* Do not refactor unbroken code unless asked.
+* Match existing style even if you prefer another style.
+* Preserve local naming for incremental edits.
+* Remove artifacts made unused by your change.
+* Mention unrelated dead code instead of deleting it.
+
+Every changed line should trace to the task.
+
+### Bug Fixes
+
+Make bugs reproducible before fixing them when practical.
+* Write a failing test that demonstrates the bug.
+* Keep the failing test focused on the observed behavior.
+* Make the test pass with the smallest safe change.
+* Add regression coverage for the fixed behavior.
+* Verify old behavior still works.
+* Document behavior changes when users can observe them.
+
+Do not fix one bug by creating another user-visible problem.
+
+### New Features
+
+Define the user-visible behavior before implementation.
+* Specify the public contract.
+* Specify inputs and outputs.
+* Specify failure modes.
+* Specify examples that should work.
+* Add unit tests for local behavior.
+* Add end-to-end tests or real examples for user workflows.
+* Update docs for public behavior.
+
+Do not add unrequested variants or configuration.
+Add extension points only when current requirements need them.
+
+### Refactors
+
+Refactor to improve structure without changing public behavior.
+* Identify tests that pass before the refactor.
+* Preserve public behavior during the refactor.
+* Keep mechanical moves separate from behavior changes when practical.
+* Keep formatting churn inside the declared refactor scope.
+* Update tests only when the public contract needs clearer coverage.
+
+Do not mix hidden behavior changes into refactors.
+
+### Architecture Design
+
+Design architecture around invariants, boundaries, and verification.
+* Define the domain model before choosing abstractions.
+* Define input validation boundaries.
+* Define pure kernels.
+* Define I/O boundaries.
+* Define lifecycle and ownership.
+* Define error propagation.
+* Define test seams.
+* Define end-to-end examples.
+* Define performance-sensitive paths.
+* Define compatibility constraints.
+
+Build input validation into boundary APIs.
+Build unit tests into pure kernels.
+Build end-to-end tests into user workflows.
+Build performance measurements into performance-sensitive designs.
+
+### Performance Work
+
+Record the baseline before optimizing.
+* Use representative inputs.
+* Measure wall time.
+* Measure memory when relevant.
+* Measure allocation count when relevant.
+* Measure throughput or latency when relevant.
+* Note hardware assumptions when relevant.
+* Note backend, compiler, and runtime assumptions when relevant.
+* Keep expensive benchmarks out of fast default tests.
+* Keep them in default tests only when the project already does.
+
+Optimization is not done until the new measurement is recorded.
+
+### Documentation Work
+
+Prefer code that explains ordinary behavior.
+Use docs for information that source cannot show clearly.
+
+Document these things when they matter.
+* Design choices.
+* Algorithm derivations.
+* Mathematical formulas.
+* Units and coordinate conventions.
+* Data schemas and file formats.
+* Invariants.
+* Ownership and cleanup rules.
+* Concurrency assumptions.
+* Performance tradeoffs.
+* Compatibility constraints.
+* Build, test, and release procedures.
+
+Avoid these things.
+* Comments that restate obvious syntax.
+* Documentation that duplicates self-evident code.
+* Marketing-only prose.
+* Undocumented magic defaults.
+* Stale examples.
+* Hidden setup steps.
+
+Keep docs close to the code they describe.
+Update docs when public behavior changes.
