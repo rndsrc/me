@@ -623,3 +623,57 @@ Finish only after relevant checks are complete.
 * Report remaining behavior or compatibility risks.
 
 Do not claim completion when relevant checks were skipped.
+
+## Git History
+
+Commit history is part of the project.
+Keep history clean, useful, and reviewable.
+
+### Commit Shape
+
+Use one commit per logical change.
+* Separate fixes from optimizations.
+* Separate behavior changes from formatting.
+* Separate refactors from behavior changes when practical.
+* Separate mechanical moves from edits to moved code.
+* Separate generated output from generator changes when practical.
+* Separate dependency updates from behavior changes when practical.
+* Keep each commit reviewable.
+* Keep each commit buildable when practical.
+
+Do not rewrite user commits unless asked.
+Do not squash user history unless asked.
+
+### Commit Messages
+
+Write useful imperative commit messages.
+
+Good subjects start with verbs such as these.
+* `Add ...`
+* `Fix ...`
+* `Use ...`
+* `Remove ...`
+* `Refactor ...`
+* `Document ...`
+* `Bump ...`
+* `Release ...`
+
+Good commit bodies explain what matters.
+* The problem.
+* The user-visible effect.
+* The implementation choice.
+* Tradeoffs or compatibility notes.
+* Tests or benchmarks run.
+
+Avoid vague subjects such as `misc`, `updates`, or `cleanup`.
+Avoid vague subjects such as `fix stuff`.
+
+### Review Discipline
+
+Make each change easy to review.
+* Keep the purpose narrow.
+* Include tests or explain why tests are not appropriate.
+* Avoid unrelated formatting churn.
+* Preserve local style.
+* Explain non-obvious tradeoffs.
+* Leave the repository reproducible.
